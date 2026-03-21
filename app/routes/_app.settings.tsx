@@ -28,7 +28,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     const totalApplications = drives.reduce((sum, drive) => sum + (summaries[drive.id]?.total || 0), 0);
     const selectedCandidates = drives.reduce((sum, drive) => sum + (summaries[drive.id]?.selected || 0), 0);
-    const activeDrives = drives.filter((drive) => drive.status === 'active').length;
+    const activeDrives = drives.filter((drive) => drive.status === 'open').length;
     const departments = [...new Set(drives.flatMap((drive) => drive.department))].slice(0, 8);
     const averageSalary = drives.length > 0
         ? Math.round(drives.reduce((sum, drive) => sum + drive.salary, 0) / drives.length)
@@ -109,25 +109,25 @@ export default function CompanySettings() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <div className="rounded-2xl border border-surface-100 p-4">
+                        <div className="rounded-lg border border-surface-100 p-4">
                             <p className="text-xs uppercase tracking-wide text-surface-400">Company Name</p>
                             <p className="mt-2 font-semibold text-surface-900">{company.name}</p>
                         </div>
-                        <div className="rounded-2xl border border-surface-100 p-4">
+                        <div className="rounded-lg border border-surface-100 p-4">
                             <p className="text-xs uppercase tracking-wide text-surface-400">Contact Person</p>
                             <p className="mt-2 flex items-center gap-2 font-semibold text-surface-900">
                                 <User size={15} className="text-surface-400" />
                                 {company.contactPerson || 'Not provided'}
                             </p>
                         </div>
-                        <div className="rounded-2xl border border-surface-100 p-4">
+                        <div className="rounded-lg border border-surface-100 p-4">
                             <p className="text-xs uppercase tracking-wide text-surface-400">Contact Email</p>
                             <p className="mt-2 flex items-center gap-2 font-semibold text-surface-900">
                                 <Mail size={15} className="text-surface-400" />
                                 {company.contactEmail || 'Not provided'}
                             </p>
                         </div>
-                        <div className="rounded-2xl border border-surface-100 p-4">
+                        <div className="rounded-lg border border-surface-100 p-4">
                             <p className="text-xs uppercase tracking-wide text-surface-400">Contact Phone</p>
                             <p className="mt-2 flex items-center gap-2 font-semibold text-surface-900">
                                 <Phone size={15} className="text-surface-400" />
@@ -136,7 +136,7 @@ export default function CompanySettings() {
                         </div>
                     </div>
 
-                    <div className="mt-5 rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm text-amber-900">
+                    <div className="mt-5 rounded-lg border border-amber-100 bg-amber-50 p-4 text-sm text-amber-900">
                         Placement cell administrators own company profile changes. If your contact details need correction, reach out to the college placement team.
                     </div>
                 </Card>
@@ -158,7 +158,7 @@ export default function CompanySettings() {
                                 </div>
                             </div>
 
-                            <div className="rounded-2xl border border-surface-100 p-4">
+                            <div className="rounded-lg border border-surface-100 p-4">
                                 <div className="flex items-start gap-3">
                                     <div className="rounded-xl bg-emerald-50 p-2 text-emerald-600">
                                         <ShieldCheck size={18} />

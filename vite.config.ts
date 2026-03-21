@@ -4,5 +4,11 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [remix({ ssr: true }), tsconfigPaths()],
   ssr: { noExternal: ['@careernest/ui', '@careernest/lib', '@careernest/shared'] },
-  server: { port: 3004, proxy: { '/api': { target: 'http://localhost:4000', changeOrigin: true } } },
+  server: {
+    port: 3004,
+    proxy: {
+      '/api': { target: 'http://localhost:4000', changeOrigin: true },
+      '/ws': { target: 'ws://localhost:4000', ws: true, changeOrigin: true },
+    },
+  },
 });

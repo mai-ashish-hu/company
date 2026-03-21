@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useFetcher, useLoaderData } from '@remix-run/react';
+import { useFetcher, useLoaderData, Link } from '@remix-run/react';
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import {
@@ -57,7 +57,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-    const { token } = await requireCompanyContext(request);
+    const { token, company } = await requireCompanyContext(request);
     const form = await request.formData();
     const deadlineInput = String(form.get('deadline') || '');
     const parsedDeadline = deadlineInput ? new Date(deadlineInput) : null;
@@ -68,8 +68,9 @@ export async function action({ request }: ActionFunctionArgs) {
 
     try {
         const payload = {
+            companies: company.id,
             title: String(form.get('title') || ''),
-            status: 'active' as const,
+            status: 'open' as const,
             jobLevel: String(form.get('jobLevel') || ''),
             jobType: String(form.get('jobType') || ''),
             experience: String(form.get('experience') || ''),
@@ -125,7 +126,7 @@ export default function CompanyDrives() {
 
     const stats = {
         totalDrives: drives.length,
-        activeDrives: drives.filter((drive) => drive.status === 'active' && getDaysUntil(drive.deadline) >= 0).length,
+        activeDrives: drives.filter((drive) => drive.status === 'open' && getDaysUntil(drive.deadline) >= 0).length,
         applications: drives.reduce((sum, drive) => sum + drive.summary.total, 0),
         selected: drives.reduce((sum, drive) => sum + drive.summary.selected, 0),
     };
@@ -200,7 +201,7 @@ export default function CompanyDrives() {
                         className="form-input w-full lg:w-44"
                     >
                         <option value="">All Status</option>
-                        <option value="active">Active</option>
+                        <option value="open">Open</option>
                         <option value="draft">Draft</option>
                         <option value="closed">Closed</option>
                     </select>
@@ -217,7 +218,7 @@ export default function CompanyDrives() {
                                     <div>
                                         <div className="flex flex-wrap items-center gap-2">
                                             <h2 className="text-lg font-semibold text-surface-900">{drive.title}</h2>
-                                            <Badge variant={drive.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-100 text-surface-600'}>
+                                            <Badge variant={drive.status === 'open' ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-100 text-surface-600'}>
                                                 {drive.status}
                                             </Badge>
                                         </div>
@@ -268,16 +269,24 @@ export default function CompanyDrives() {
                                         <span>Backlogs up to {drive.Backlogs}</span>
                                         {daysLeft >= 0 && <span>{daysLeft === 0 ? 'Closes today' : `${daysLeft} days left`}</span>}
                                     </div>
-                                    {drive.externalLink ? (
-                                        <a
-                                            href={drive.externalLink}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
+                                    <div className="flex items-center gap-3">
+                                        {drive.externalLink ? (
+                                            <a
+                                                href={drive.externalLink}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
+                                            >
+                                                External listing <ExternalLink size={14} />
+                                            </a>
+                                        ) : null}
+                                        <Link
+                                            to={`/view-drives/${drive.id}`}
+                                            className="inline-flex items-center gap-1.5 rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700 transition-colors"
                                         >
-                                            View external listing <ExternalLink size={14} />
-                                        </a>
-                                    ) : null}
+                                            View Drive
+                                        </Link>
+                                    </div>
                                 </div>
                             </Card>
                         );
@@ -296,7 +305,7 @@ export default function CompanyDrives() {
 
             <Modal isOpen={showModal} onClose={() => setShowModal(false)} title="Create New Drive" size="lg">
                 <fetcher.Form method="post" className="space-y-5">
-                    <div className="rounded-2xl border border-amber-100 bg-amber-50 p-4 text-sm text-amber-800">
+                    <div className="rounded-lg border border-amber-100 bg-amber-50 p-4 text-sm text-amber-800">
                         This drive will automatically be linked to <span className="font-semibold">{company.name}</span>.
                     </div>
 
@@ -317,8 +326,8 @@ export default function CompanyDrives() {
                             <label className="form-label">Job Type</label>
                             <select name="jobType" className="form-input" required>
                                 <option value="">Select type</option>
-                                <option value="full-time">Full Time</option>
-                                <option value="part-time">Part Time</option>
+                                <option value="full_time">Full Time</option>
+                                <option value="part_time">Part Time</option>
                                 <option value="internship">Internship</option>
                                 <option value="contract">Contract</option>
                                 <option value="freelance">Freelance</option>
@@ -354,7 +363,6 @@ export default function CompanyDrives() {
                                 <option value="2nd">2nd</option>
                                 <option value="3rd">3rd</option>
                                 <option value="4th">4th</option>
-                                <option value="5th">5th</option>
                                 <option value="graduate">Graduate</option>
                             </select>
                         </div>

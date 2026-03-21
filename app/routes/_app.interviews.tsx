@@ -9,6 +9,8 @@ import { api } from '@careernest/lib';
 
 export const meta: MetaFunction = () => [{ title: 'Interviews – Company – CareerNest' }];
 
+const IST_TIME_ZONE = 'Asia/Kolkata';
+
 export async function loader({ request }: LoaderFunctionArgs) {
     const { token } = await requireCompanyUserSession(request);
 
@@ -42,6 +44,7 @@ export default function CompanyInterviewsPage() {
 
     const formatDate = (iso: string) => new Date(iso).toLocaleString('en-IN', {
         weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit',
+        timeZone: IST_TIME_ZONE,
     });
 
     const StatusBadge = ({ status }: { status: string }) => {

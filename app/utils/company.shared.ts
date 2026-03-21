@@ -8,12 +8,10 @@ export function formatSalaryDisplay(salary: number, period: string): string {
 export function formatJobLevelLabel(level: string): string {
     const labels: Record<string, string> = {
         internship: 'Internship',
-        trainee: 'Trainee',
-        fresher: 'Fresher',
+        entry: 'Entry Level',
         junior: 'Junior',
         mid: 'Mid-level',
         senior: 'Senior',
-        lead: 'Lead',
     };
     return labels[level] ?? level;
 }
@@ -24,8 +22,7 @@ export function formatJobTypeLabel(type: string): string {
         part_time: 'Part-time',
         internship: 'Internship',
         contract: 'Contract',
-        remote: 'Remote',
-        hybrid: 'Hybrid',
+        freelance: 'Freelance',
     };
     return labels[type] ?? type;
 }

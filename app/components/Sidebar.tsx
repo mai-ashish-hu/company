@@ -17,8 +17,7 @@ export function Sidebar({ links, isOpen, onClose }: { links: SidebarLink[]; isOp
       )}>
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white', 'bg-gradient-to-br from-amber-500 to-orange-500')}>CN</div>
-            <div><h1 className="font-bold text-lg">CareerNest</h1><p className="text-xs text-surface-400">Company Portal</p></div>
+            <img src="/logo.png" alt="CareerNest" className="h-8 w-auto" />
           </div>
           <button onClick={onClose} className="lg:hidden p-1 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors">
             <X size={20} />

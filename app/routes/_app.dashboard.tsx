@@ -21,7 +21,7 @@ import { formatJobTypeLabel, formatSalaryDisplay, getDaysUntil } from '~/utils/c
 
 export const meta: MetaFunction = () => [{ title: 'Dashboard - Company Portal - CareerNest' }];
 
-const primaryLinkClass = 'inline-flex items-center justify-center gap-2 rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-primary-700 hover:shadow-lg';
+const primaryLinkClass = 'inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-primary-700';
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const { token, user, company } = await requireCompanyContext(request);
@@ -43,7 +43,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     const totalApplications = drivesWithMetrics.reduce((sum, drive) => sum + drive.summary.total, 0);
     const selectedCandidates = drivesWithMetrics.reduce((sum, drive) => sum + drive.summary.selected, 0);
-    const activeDrives = drivesWithMetrics.filter((drive) => drive.status === 'active' && getDaysUntil(drive.deadline) >= 0).length;
+    const activeDrives = drivesWithMetrics.filter((drive) => drive.status === 'open' && getDaysUntil(drive.deadline) >= 0).length;
     const selectionRate = totalApplications > 0
         ? Math.round((selectedCandidates / totalApplications) * 1000) / 10
         : 0;
@@ -113,7 +113,7 @@ export default function CompanyDashboard() {
                         </div>
                         <div className="space-y-4">
                             {topDrives.map((drive) => (
-                                <div key={drive.id} className="rounded-2xl border border-surface-100 bg-surface-50 p-4">
+                                <div key={drive.id} className="rounded-lg border border-surface-100 bg-surface-50 p-4">
                                     <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                                         <div>
                                             <h3 className="font-semibold text-surface-900">{drive.title}</h3>
@@ -127,7 +127,7 @@ export default function CompanyDashboard() {
                                                 <span>{formatSalaryDisplay(drive.salary, drive.ctcPeriod)}</span>
                                             </div>
                                         </div>
-                                        <Badge variant={drive.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-100 text-surface-600'}>
+                                        <Badge variant={drive.status === 'open' ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-100 text-surface-600'}>
                                             {drive.status}
                                         </Badge>
                                     </div>
@@ -164,7 +164,7 @@ export default function CompanyDashboard() {
                                 {upcomingDeadlines.map((drive) => {
                                     const daysLeft = getDaysUntil(drive.deadline);
                                     return (
-                                        <div key={drive.id} className="rounded-2xl border border-surface-100 p-4">
+                                        <div key={drive.id} className="rounded-lg border border-surface-100 p-4">
                                             <div className="flex items-start justify-between gap-3">
                                                 <div>
                                                     <p className="font-medium text-surface-900">{drive.title}</p>

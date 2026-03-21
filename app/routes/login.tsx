@@ -3,7 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remi
 import { json, redirect } from '@remix-run/node';
 import { getUserSession, createUserSession } from '~/auth.server';
 import { Button, Input } from '@careernest/ui';
-import { Mail, Lock, GraduationCap } from 'lucide-react';
+import { Mail, Lock } from 'lucide-react';
 
 export const meta: MetaFunction = () => [{ title: 'Login - Company Portal - CareerNest' }];
 
@@ -46,20 +46,13 @@ export default function LoginPage() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
   return (
-    <div className="min-h-screen gradient-hero flex items-center justify-center p-4">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-700/10 rounded-full blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-600 shadow-glow mb-4">
-            <GraduationCap size={32} className="text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-white">CareerNest</h1>
-          <p className="text-primary-200 mt-2">Company Portal</p>
+          <img src="/logo-full.png" alt="CareerNest" className="mx-auto h-40 w-auto mb-2" />
+          <p className="text-surface-500 mt-1 text-sm">Company Portal</p>
         </div>
-        <div className="glass-card p-8">
+        <div className="rounded-lg border border-surface-200 bg-white p-8">
           <h2 className="text-xl font-semibold text-surface-900 mb-6">Sign in to your account</h2>
           {actionData?.error && <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">{actionData.error}</div>}
           <Form method="post" className="space-y-5">
