@@ -5,7 +5,7 @@ import { json, redirect } from '@remix-run/node';
 import { useLoaderData, Link } from '@remix-run/react';
 import { useState } from 'react';
 import { requireUserSession } from '~/auth.server';
-import { api } from '@careernest/lib';
+import { api, withBasePath } from '@careernest/lib';
 
 export const meta: MetaFunction = () => [{ title: 'Applicants – CareerNest' }];
 
@@ -24,7 +24,7 @@ function stageLabel(s: string) {
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const { token, user } = await requireUserSession(request);
-    if (user.role !== 'company') throw redirect('/login');
+    if (user.role !== 'company') throw redirect(withBasePath('/login'));
 
     const driveId = params.id!;
     let drive: any = null;
@@ -34,11 +34,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         const res = await api.drives.getById(token, driveId) as any;
         drive = res.data || res;
     } catch {
-        throw redirect('/drives');
+        throw redirect(withBasePath('/drives'));
     }
 
     try {
-        const res = await api.drives.getApplications(token, driveId, 'limit=100') as any;
+        const res = await api.applications.list(token, `driveId=${driveId}&limit=500`) as any;
         applications = res.data || [];
     } catch { /* optional */ }
 

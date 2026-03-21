@@ -4,7 +4,7 @@ import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useLoaderData, Link } from '@remix-run/react';
 import { requireUserSession } from '~/auth.server';
-import { api } from '@careernest/lib';
+import { api, withBasePath } from '@careernest/lib';
 
 export const meta: MetaFunction = () => [{ title: 'Applicant – CareerNest' }];
 
@@ -23,7 +23,7 @@ function stageLabel(s: string) {
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     const { token, user } = await requireUserSession(request);
-    if (user.role !== 'company') throw redirect('/login');
+    if (user.role !== 'company') throw redirect(withBasePath('/login'));
 
     const id = params.id!;
     let application: any = null;
@@ -33,7 +33,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         const res = await api.applications.getById(token, id) as any;
         application = res.data || res;
     } catch {
-        throw redirect('/drives');
+        throw redirect(withBasePath('/drives'));
     }
 
     if (application?.studentId) {

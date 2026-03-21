@@ -10,6 +10,7 @@ export interface CompanyUser extends SessionUser {
 export interface CompanyProfile {
     id: string;
     tenantId: string;
+    collegeName: string;
     name: string;
     contactEmail: string;
     contactPhone: string;
@@ -58,9 +59,18 @@ function isCompanyUser(user: SessionUser): user is CompanyUser {
 }
 
 export function mapCompanyProfile(doc: Record<string, unknown>): CompanyProfile {
+    const colleges = doc.colleges as any;
+    const relationTenantId = Array.isArray(colleges)
+        ? String(colleges[0]?.$id ?? colleges[0] ?? '')
+        : String(colleges?.$id ?? colleges ?? '');
+    const relationCollegeName = Array.isArray(colleges)
+        ? String(colleges[0]?.name ?? '')
+        : String(colleges?.name ?? '');
+
     return {
         id: String(doc.$id ?? doc.id ?? ''),
-        tenantId: String(doc.tenantId ?? ''),
+        tenantId: String(doc.tenantId ?? relationTenantId ?? ''),
+        collegeName: relationCollegeName,
         name: String(doc.name ?? ''),
         contactEmail: String(doc.contactEmail ?? doc.email ?? ''),
         contactPhone: String(doc.contactPhone ?? doc.phone ?? ''),

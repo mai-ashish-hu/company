@@ -1,6 +1,7 @@
 ﻿import { Form, useActionData, useNavigation } from '@remix-run/react';
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
+import { withBasePath } from '@careernest/lib';
 import { getUserSession, createUserSession } from '~/auth.server';
 import { Button, Input } from '@careernest/ui';
 import { Mail, Lock } from 'lucide-react';
@@ -9,7 +10,7 @@ export const meta: MetaFunction = () => [{ title: 'Login - Company Portal - Care
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { user } = await getUserSession(request);
-  if (user) return redirect('/dashboard');
+  if (user) return redirect(withBasePath('/dashboard'));
   return json({});
 }
 

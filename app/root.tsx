@@ -1,4 +1,4 @@
-﻿import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+﻿import { Link, Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import stylesheet from './tailwind.css?url';
 
@@ -29,7 +29,7 @@ export function ErrorBoundary() {
                 <div className="text-center">
                     <h1 className="text-6xl font-bold text-primary-600 mb-4">Oops!</h1>
                     <p className="text-xl text-surface-600 mb-6">Something went wrong</p>
-                    <a href="/" className="px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">Go Home</a>
+                    <Link to="/" className="px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">Go Home</Link>
                 </div>
                 <Scripts />
             </body>
