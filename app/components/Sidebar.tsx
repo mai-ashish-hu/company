@@ -2,6 +2,7 @@ import { NavLink } from '@remix-run/react';
 import { cn } from '@careernest/ui';
 import { X } from 'lucide-react';
 import type { ReactNode } from 'react';
+import group2Logo from '../../Group 2.png';
 
 interface SidebarLink { to: string; label: string; icon: ReactNode; }
 
@@ -17,7 +18,7 @@ export function Sidebar({ links, isOpen, onClose }: { links: SidebarLink[]; isOp
       )}>
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="CareerNest" className="h-8 w-auto" />
+            <img src={group2Logo} alt="CareerNest" className="h-8 w-auto" />
           </div>
           <button onClick={onClose} className="lg:hidden p-1 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors">
             <X size={20} />

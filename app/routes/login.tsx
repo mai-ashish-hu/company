@@ -5,6 +5,7 @@ import { withBasePath } from '@careernest/lib';
 import { getUserSession, createUserSession } from '~/auth.server';
 import { Button, Input } from '@careernest/ui';
 import { Mail, Lock } from 'lucide-react';
+import frame3Logo from '../../Frame 3.png';
 
 export const meta: MetaFunction = () => [{ title: 'Login - Company Portal - CareerNest' }];
 
@@ -50,7 +51,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-surface-50 flex items-center justify-center p-4">
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <img src="/logo-full.png" alt="CareerNest" className="mx-auto h-40 w-auto mb-2" />
+          <img src={frame3Logo} alt="CareerNest" className="mx-auto h-40 w-auto mb-2" />
           <p className="text-surface-500 mt-1 text-sm">Company Portal</p>
         </div>
         <div className="rounded-lg border border-surface-200 bg-white p-8">

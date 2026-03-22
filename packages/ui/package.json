@@ -1,0 +1,9 @@
+{
+  "name": "@careernest/ui",
+  "version": "0.0.0-local",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

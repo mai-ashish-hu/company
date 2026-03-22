@@ -11,9 +11,9 @@
         "type-check": "tsc --noEmit"
     },
     "dependencies": {
-        "@careernest/shared": "*",
-        "@careernest/ui": "*",
-        "@careernest/lib": "*",
+        "@careernest/shared": "file:./packages/shared",
+        "@careernest/ui": "file:./packages/ui",
+        "@careernest/lib": "file:./packages/lib",
         "@remix-run/node": "^2.15.0",
         "@remix-run/react": "^2.15.0",
         "@remix-run/serve": "^2.15.0",

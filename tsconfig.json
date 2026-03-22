@@ -1,5 +1,4 @@
 ﻿{
-    "extends": "../../packages/config/typescript/base.json",
     "compilerOptions": {
         "target": "ES2022",
         "module": "ESNext",
@@ -11,29 +10,29 @@
             "ES2022"
         ],
         "outDir": "./dist",
-        "rootDir": "../..",
+        "rootDir": ".",
         "baseUrl": ".",
         "paths": {
             "~/*": [
                 "./app/*"
             ],
             "@careernest/shared": [
-                "../../packages/shared/src"
+                "./packages/shared/src"
             ],
             "@careernest/shared/*": [
-                "../../packages/shared/src/*"
+                "./packages/shared/src/*"
             ],
             "@careernest/ui": [
-                "../../packages/ui/src"
+                "./packages/ui/src"
             ],
             "@careernest/ui/*": [
-                "../../packages/ui/src/*"
+                "./packages/ui/src/*"
             ],
             "@careernest/lib": [
-                "../../packages/lib/src"
+                "./packages/lib/src"
             ],
             "@careernest/lib/*": [
-                "../../packages/lib/src/*"
+                "./packages/lib/src/*"
             ]
         },
         "noEmit": true,
